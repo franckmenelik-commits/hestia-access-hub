@@ -12,9 +12,9 @@ import { useState, useEffect } from "react";
 // ── ANTI-BYPASS ENGINE ──────────────────────────────────────
 const redactContact = (text) => {
 return text
-.replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}/g, “🔒 [email masqué]”)
-.replace(/(+?[\d][\d\s-().]{8,}[\d])/g, “🔒 [téléphone masqué]”)
-.replace(/@[\w]{2,}/g, “🔒 [handle masqué]”)
+.replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, "🔒 [email masqué]")
+.replace(/(?:\+?\d[\d\s-().]{8,}\d)/g, "🔒 [téléphone masqué]")
+.replace(/@\w{2,}/g, "🔒 [handle masqué]")
 .replace(/\b(instagram|whatsapp|telegram|facebook|snapchat|signal|wechat|line)\b/gi, “🔒 [réseau masqué]”)
 .replace(/\b(mon insta|mon ig|mon snap|mon télé|mon numéro|my number|my insta)\b/gi, “🔒 [contact masqué]”);
 };
