@@ -237,7 +237,7 @@ const AI_SUGGESTIONS = [
 // ── TRANSLATIONS ─────────────────────────────────────────────
 const T = {
   fr: {
-    tagline: "Échangez votre maison avec des gens qui lui ressemblent.",
+    tagline: "Les meilleures maisons ne se louent pas. Elles s'échangent.",
     sub: "La première plateforme de home exchange basée sur la compatibilité humaine.",
     cta: "Créer mon profil gratuitement",
     login: "Se connecter",
