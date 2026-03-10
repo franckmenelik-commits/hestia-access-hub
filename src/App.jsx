@@ -2048,17 +2048,23 @@ export default function HestiaApp() {
     setScreen("dashboard");
   };
 
-  const handleUpgrade = async () => {
-
-  const res = await fetch("/api/create-checkout-session", {
-    method: "POST",
-  });
-
-  const data = await res.json();
-
-  window.location = data.url;
-
+const handleUpgrade = async () => {
+  try {
+    const res = await fetch("/api/create-checkout-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert("Erreur : " + data.error);
+    }
+  } catch (err) {
+    alert("Erreur réseau : " + err.message);
+  }
 };
+
 
   return (
     <div>
