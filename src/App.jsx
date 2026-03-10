@@ -754,7 +754,7 @@ const AuthPage = ({ lang, onAuth }) => {
     <div className="min-h-screen bg-cream-light flex items-center justify-center px-5">
       <div className="max-w-md w-full">
         <div className="text-center mb-10">
-          <span className="font-serif text-xl tracking-widest text-warm-800 italic block mb-3">HESTIA</span>
+          <div className="flex items-center justify-center gap-2 mb-3"><img src={hestiaLogo} alt="Hestia" className="h-8 w-8" /><span className="font-serif text-xl tracking-widest text-warm-800 italic">HESTIA</span></div>
           <h2 className="font-serif text-3xl font-bold text-warm-900">
             {isLogin ? (lang === "fr" ? "Bon retour" : "Welcome back") : (lang === "fr" ? "Rejoindre Hestia" : "Join Hestia")}
           </h2>
