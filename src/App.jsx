@@ -969,7 +969,7 @@ const Dashboard = ({ lang, user, answers, isPremium, onUpgrade, onLogout }) => {
     <div className="min-h-screen bg-cream-light flex flex-col">
       {/* Top bar */}
       <div className="px-5 py-4 border-b border-warm-100 bg-white/80 backdrop-blur-sm flex justify-between items-center sticky top-0 z-50">
-        <span className="font-serif text-base tracking-widest text-warm-800 italic">HESTIA</span>
+        <div className="flex items-center gap-2"><img src={hestiaLogo} alt="Hestia" className="h-7 w-7" /><span className="font-serif text-base tracking-widest text-warm-800 italic">HESTIA</span></div>
         <div className="flex items-center gap-3">
           <HestiaPointsBadge points={userPoints} />
           {isPremium && (
