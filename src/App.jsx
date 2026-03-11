@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, ClipboardList, Sparkles, Handshake, ShieldCheck, Shield, Lock, Star, MapPin, Home, Heart, Users, Zap, MessageCircle, Globe, Award } from "lucide-react";
+import { User, ClipboardList, Sparkles, Handshake, ShieldCheck, Shield, Lock, Star, MapPin, Home, Heart, Users, Zap, MessageCircle, Globe, Award, Menu, X } from "lucide-react";
 import heroImg from "./assets/hero-home.jpg";
 import hestiaLogo from "./assets/hestia-logo.png";
 import "mapbox-gl/dist/mapbox-gl.css";
