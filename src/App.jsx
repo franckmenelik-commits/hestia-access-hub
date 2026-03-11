@@ -262,6 +262,7 @@ const HestiaPointsBadge = ({ points }) => (
 const WaitlistModal = ({ isOpen, onClose }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [city, setCity] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
@@ -299,9 +300,11 @@ const WaitlistModal = ({ isOpen, onClose }) => {
         >
           {success ? (
             <div className="text-center py-6">
-              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-5xl mb-4">🎉</motion.div>
-              <h3 className="font-serif text-2xl font-bold text-warm-900 mb-2">Vous êtes sur la liste !</h3>
-              <p className="font-sans text-warm-500 text-sm mb-6">Nous vous préviendrons dès qu'une place se libère.</p>
+              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="w-16 h-16 rounded-full bg-terracotta/10 border border-terracotta/20 flex items-center justify-center mx-auto mb-4">
+                <Sparkles className="text-terracotta" size={28} />
+              </motion.div>
+              <h3 className="font-serif text-2xl font-bold text-warm-900 mb-2">✦ Vous êtes sur la liste</h3>
+              <p className="font-sans text-warm-500 text-sm mb-6">Nous vous contactons très bientôt.</p>
               <button onClick={onClose} className="bg-terracotta text-white font-sans font-semibold text-sm px-8 py-3 rounded-xl hover:bg-terracotta-dark transition-all">Fermer</button>
             </div>
           ) : (
@@ -313,10 +316,11 @@ const WaitlistModal = ({ isOpen, onClose }) => {
               <p className="font-sans text-warm-500 text-sm mb-6">Hestia est accessible sur invitation uniquement. Rejoignez <span className="font-semibold text-terracotta">847 personnes</span> sur la liste d'attente.</p>
               {error && <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 mb-4 font-sans text-sm">{error}</div>}
               <input className="w-full px-4 py-3.5 rounded-xl border border-warm-200 bg-cream-light/50 text-warm-800 font-sans text-sm outline-none focus:border-terracotta/50 focus:ring-2 focus:ring-terracotta/10 transition-all mb-3" placeholder="Votre prénom" value={name} onChange={(e) => setName(e.target.value)} />
-              <input className="w-full px-4 py-3.5 rounded-xl border border-warm-200 bg-cream-light/50 text-warm-800 font-sans text-sm outline-none focus:border-terracotta/50 focus:ring-2 focus:ring-terracotta/10 transition-all mb-5" placeholder="Votre email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleSubmit()} />
+              <input className="w-full px-4 py-3.5 rounded-xl border border-warm-200 bg-cream-light/50 text-warm-800 font-sans text-sm outline-none focus:border-terracotta/50 focus:ring-2 focus:ring-terracotta/10 transition-all mb-3" placeholder="Votre email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <input className="w-full px-4 py-3.5 rounded-xl border border-warm-200 bg-cream-light/50 text-warm-800 font-sans text-sm outline-none focus:border-terracotta/50 focus:ring-2 focus:ring-terracotta/10 transition-all mb-5" placeholder="Quelle ville ?" value={city} onChange={(e) => setCity(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleSubmit()} />
               <button className="w-full bg-terracotta text-white font-sans font-semibold text-sm py-3.5 rounded-xl hover:bg-terracotta-dark transition-all disabled:opacity-50 flex items-center justify-center gap-2" onClick={handleSubmit} disabled={loading || !name.trim() || !email.trim()}>
                 {loading && <Spinner />}
-                {loading ? "Envoi..." : "Demander une invitation"}
+                {loading ? "Envoi..." : "Rejoindre la liste"}
               </button>
             </>
           )}
