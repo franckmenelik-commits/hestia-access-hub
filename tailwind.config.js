@@ -33,7 +33,7 @@ export default {
         },
       },
       fontFamily: {
-        serif: ["'Playfair Display'", "Georgia", "serif"],
+        serif: ["'DM Serif Display'", "Georgia", "serif"],
         sans: ["'DM Sans'", "system-ui", "sans-serif"],
       },
       boxShadow: {
