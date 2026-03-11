@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, ClipboardList, Sparkles, Handshake, ShieldCheck, Shield, Lock, Star, MapPin, Home, Heart, Users, Zap, MessageCircle, Globe, Award } from "lucide-react";
+import { User, ClipboardList, Sparkles, Handshake, ShieldCheck, Shield, Lock, Star, MapPin, Home, Heart, Users, Zap, MessageCircle, Globe, Award, Menu, X } from "lucide-react";
 import heroImg from "./assets/hero-home.jpg";
 import hestiaLogo from "./assets/hestia-logo.png";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -437,29 +437,108 @@ const HestiaPassport = ({ user }) => {
 // ── LANDING PAGE ─────────────────────────────────────────────
 const LandingPage = ({ onOpenAuth, onOpenWaitlist, onNavigate }) => {
   const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activePage] = useState("home");
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const navLinks = [
+    { id: "comment-ca-marche", label: "Comment ça marche", action: () => onNavigate?.("comment-ca-marche") || scrollTo("how-it-works") },
+    { id: "pricing", label: "Tarifs", action: () => scrollTo("pricing") },
+    { id: "assurance", label: "Assurance", action: () => onNavigate?.("assurance") || scrollTo("trust") },
+  ];
 
   return (
     <div className="min-h-screen bg-cream-light">
       {/* Sticky Nav */}
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-warm-100">
-        <div className="max-w-6xl mx-auto flex justify-between items-center px-6 py-4">
-          <div className="flex items-center gap-2">
-            <img src={hestiaLogo} alt="Hestia" className="h-8 w-8" />
-            <span className="font-serif text-xl tracking-widest text-warm-800 italic">HESTIA</span>
+      <nav className={`sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-warm-100 transition-shadow duration-300 ${scrolled ? "shadow-soft" : ""}`}>
+        <div className="max-w-6xl mx-auto flex justify-between items-center px-6 py-3.5">
+          <div className="flex items-center gap-2.5">
+            <img src={hestiaLogo} alt="Hestia" className="h-10 w-10" />
+            <span className="font-serif text-xl tracking-widest text-warm-800">HESTIA</span>
           </div>
           <div className="hidden md:flex items-center gap-8">
-            <button onClick={() => onNavigate ? onNavigate("comment-ca-marche") : scrollTo("how-it-works")} className="font-sans text-sm text-warm-600 hover:text-terracotta transition-colors">Comment ça marche</button>
-            <button onClick={() => scrollTo("pricing")} className="font-sans text-sm text-warm-600 hover:text-terracotta transition-colors">Tarifs</button>
-            <button onClick={() => onNavigate ? onNavigate("assurance") : scrollTo("trust")} className="font-sans text-sm text-warm-600 hover:text-terracotta transition-colors">Assurance</button>
+            {navLinks.map((link) => (
+              <button
+                key={link.id}
+                onClick={link.action}
+                className={`relative font-sans text-sm text-warm-600 hover:text-terracotta transition-colors pb-1 ${activePage === link.id ? "text-terracotta" : ""}`}
+              >
+                {link.label}
+                {activePage === link.id && (
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-terracotta rounded-full" />
+                )}
+              </button>
+            ))}
           </div>
-          <div className="flex gap-3 items-center">
+          <div className="hidden md:flex gap-3 items-center">
             <button onClick={onOpenAuth} className="font-sans text-sm text-warm-700 hover:text-terracotta transition-colors">Se connecter</button>
-            <button onClick={onOpenWaitlist} className="bg-terracotta text-white font-sans font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-terracotta-dark hover:shadow-soft transition-all active:scale-[0.97]">
+            <button onClick={onOpenWaitlist} className="bg-terracotta text-white font-sans font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-terracotta-dark hover:shadow-soft transition-all active:scale-[0.97] flex items-center gap-2">
               Demander une invitation
+              <span className="text-[0.65rem] opacity-80 font-normal">✦ 847 en attente</span>
             </button>
           </div>
+          {/* Mobile hamburger */}
+          <button onClick={() => setMobileMenuOpen(true)} className="md:hidden text-warm-700 hover:text-terracotta transition-colors">
+            <Menu size={24} />
+          </button>
         </div>
       </nav>
+
+      {/* Mobile menu overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[80]"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="fixed top-0 right-0 bottom-0 w-72 bg-white z-[85] shadow-elevated flex flex-col"
+            >
+              <div className="flex items-center justify-between px-6 py-4 border-b border-warm-100">
+                <span className="font-serif text-lg tracking-widest text-warm-800">HESTIA</span>
+                <button onClick={() => setMobileMenuOpen(false)} className="text-warm-500 hover:text-warm-800 transition-colors">
+                  <X size={22} />
+                </button>
+              </div>
+              <div className="flex flex-col gap-1 p-4 flex-1">
+                {navLinks.map((link) => (
+                  <button
+                    key={link.id}
+                    onClick={() => { link.action(); setMobileMenuOpen(false); }}
+                    className="font-sans text-base text-warm-700 hover:text-terracotta hover:bg-terracotta/5 rounded-xl px-4 py-3 text-left transition-all"
+                  >
+                    {link.label}
+                  </button>
+                ))}
+                <hr className="my-3 border-warm-100" />
+                <button onClick={() => { onOpenAuth(); setMobileMenuOpen(false); }} className="font-sans text-base text-warm-700 hover:text-terracotta hover:bg-terracotta/5 rounded-xl px-4 py-3 text-left transition-all">
+                  Se connecter
+                </button>
+              </div>
+              <div className="p-4 border-t border-warm-100">
+                <button onClick={() => { onOpenWaitlist(); setMobileMenuOpen(false); }} className="w-full bg-terracotta text-white font-sans font-semibold text-sm py-3.5 rounded-xl hover:bg-terracotta-dark transition-all flex items-center justify-center gap-2">
+                  Demander une invitation
+                  <span className="text-[0.6rem] opacity-80 font-normal">✦ 847</span>
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* Social Proof Ticker — right below nav */}
       <SocialTicker />
